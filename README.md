@@ -1,4 +1,4 @@
 # Todo-app-
 Todo app with React
-![todo1](https://user-images.githubusercontent.com/97164252/160624865-224a59cd-7304-4ccd-8cae-9846bd0ba553.PNG)
-![todo2](https://user-images.githubusercontent.com/97164252/160624871-adf3e635-b51f-4474-beaf-f00b87bf54e4.PNG)
+![todo1](https://user-images.githubusercontent.com/97164252/160695153-fc2a7214-e87b-4a14-8a75-de417bb16c86.PNG)
+![todo2](https://user-images.githubusercontent.com/97164252/160695158-88b2f472-6762-447b-86ca-4b47e9cb9602.PNG)
