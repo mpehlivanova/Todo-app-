@@ -19,6 +19,10 @@ function App() {
       console.log(tasks);
     }
   };
+  const deleteTask = (id) => {
+    const filterTasks = tasks.filter((task) => task.id !== id);
+    setTasks(filterTasks);
+  };
 
   return (
     <>
@@ -37,6 +41,9 @@ function App() {
               <div id="listConatiner">
                 {tasks.map((task, i) => (
                   <Task
+                    onDeleteTask={(id) => {
+                      deleteTask(id);
+                    }}
                     key={i}
                     taskName={task.taskName}
                     id={task.id}

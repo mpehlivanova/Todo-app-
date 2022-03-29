@@ -13,7 +13,7 @@ export default function Task(props) {
       </div>
 
       <div className="task">
-        <div className="button">
+        <div className="button" onClick={()=> props.onDeleteTask(props.id)}>
           <DeleteIcon />
         </div>
         <div className="button">
