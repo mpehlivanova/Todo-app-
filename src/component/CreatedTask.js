@@ -1,9 +1,8 @@
 import { useState } from "react";
 import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import ButtonColor from "./Button";
-import { Stack } from "@mui/material";
+import InputTask from "./Input";
 
 export default function CreateTask(props) {
   const [taskName, setTaskName] = useState("");
@@ -28,36 +27,21 @@ export default function CreateTask(props) {
 
   return (
     <div id="create">
-      <div onClick={() => handleClickOpen()}>
-        <ButtonColor
-          icon={<AddCircleIcon sx={{ mr: 1 }} />}
-          text="ADD NEW TASK"
-        ></ButtonColor>
-      </div>
-
+      <ButtonColor
+        onClick={() => handleClickOpen()}
+        icon={<AddCircleIcon sx={{ mr: 1 }} />}
+        text="ADD NEW TASK"
+      ></ButtonColor>
       <Dialog open={open} onClose={handleClose}>
-        <DialogActions>
-          <input
-            style={{ padding: "10px" }}
-            type="text"
-            placeholder="Write task"
-            onInput={getTaskName}
-            value={taskName}
-          ></input>
-        </DialogActions>
-        <Stack sx={{ m: 3 }} direction="row" spacing={2}>
-          <div onClick={handleClose}>
-            <ButtonColor text="BACK"></ButtonColor>{" "}
-          </div>
-          <div
-            onClick={() => {
-              handleTaskCreate();
-              handleClose();
-            }}
-          >
-            <ButtonColor text="Add"></ButtonColor>
-          </div>
-        </Stack>
+        <InputTask
+              onClickInputText={handleTaskCreate}
+              onClickBack={() => handleClose()}
+              value={taskName}
+              onInput={getTaskName}
+              placeholder = "Write task"
+              buttonText = "Add"
+
+            />
       </Dialog>
     </div>
   );

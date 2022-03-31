@@ -14,7 +14,11 @@ const theme = createTheme({
 export default function ButtonColor(props) {
   return (
     <ThemeProvider theme={theme}>
-      <Button color="neutral" variant="contained" size={props.size}>
+      <Button 
+        color="neutral"
+        variant="contained" 
+        size={props.size}
+        onClick = {props.onClick}>
         {props.icon}
         {props.text}
       </Button>
