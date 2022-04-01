@@ -1,5 +1,8 @@
 # Todo-app-
 Todo app with React
-![todo1](https://user-images.githubusercontent.com/97164252/160695153-fc2a7214-e87b-4a14-8a75-de417bb16c86.PNG)
-![todo2](https://user-images.githubusercontent.com/97164252/160695158-88b2f472-6762-447b-86ca-4b47e9cb9602.PNG)
-![edit text](https://user-images.githubusercontent.com/97164252/161044477-c8a26549-a6ea-47db-b9a1-2daf3eabb78f.PNG)
+
+![todoList](https://user-images.githubusercontent.com/97164252/161350765-22dc30a3-8497-4065-803f-3639779f9eca.PNG)
+![createTodo](https://user-images.githubusercontent.com/97164252/161350777-a21591de-4b58-42f6-8b57-a22659e511c5.PNG)
+![editTodo](https://user-images.githubusercontent.com/97164252/161350782-1b8b609c-e2f3-4eaa-8d1d-1b69efd6c15a.PNG)
+![completeTask](https://user-images.githubusercontent.com/97164252/161350787-7614ffd2-7bfb-4e19-82f7-d879fcd97139.PNG)
+![restoreTask](https://user-images.githubusercontent.com/97164252/161350789-c33f8fb4-25d5-452a-a3ab-1c4080b9f056.PNG)
