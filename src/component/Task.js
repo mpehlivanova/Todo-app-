@@ -54,6 +54,7 @@ export default function Task(props) {
               onInput={props.onInputEdit}
               placeholder="Write edit task"
               buttonText="Save edit"
+              taskName={props.taskName}
              
             />
           </Dialog>

@@ -10,7 +10,6 @@ export default function InputTask(props) {
           type="text"
           placeholder={props.placeholder}
           onInput={props.onInput}
-          value={props.value}
         ></input>
       </div>
       <Stack sx={{ m: 2 }} direction="row" spacing={3}>

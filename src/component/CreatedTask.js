@@ -43,7 +43,6 @@ export default function CreateTask(props) {
             onInput={getTaskName}
             placeholder="Write task"
             buttonText="Add"
-            width="100px"
           />
         </Dialog>
         <SelectTask onChange={props.onChange} />

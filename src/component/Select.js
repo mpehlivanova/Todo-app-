@@ -10,7 +10,7 @@ const useStyles = makeStyles({
     border: "none",
     borderRadius: "5px",
     color: "white",
-    fontSize: "16px",
+    fontSize: "14.5px",
   },
   opt: {
     backgroundColor: "#dfe0d8",
@@ -23,12 +23,13 @@ export default function SelectTask(props) {
   const style = useStyles();
   return (
     <div>
-      <div sx={{ m: 1 }}>
+      <div sx={{ ml: 1 }}>
         <select
           className={style.fon}
           value={props.valueEdit}
           onChange={props.onChange}
         >
+          
           <option className={style.opt} value="all">
             All
           </option>

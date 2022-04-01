@@ -40,20 +40,11 @@ export default function App(props) {
     }
   };
 
-  // get saved tasks from Local Storage
-  useEffect(() => {
+
+   // get saved tasks from Local Storage
+   useEffect(() => {
     getLocalStorage();
   }, []);
-
-  const saveLocalStorage = () => {
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-    localStorage.setItem("deletTasks", JSON.stringify(deletTasks));
-  };
-
-  //save tasks in LocalStorage
-  useEffect(() => {
-    saveLocalStorage();
-  }, [tasks]);
 
   const getLocalStorage = () => {
     if (
@@ -73,8 +64,23 @@ export default function App(props) {
     }
   };
 
+
+ //save tasks in LocalStorage
+ useEffect(() => {
+  saveLocalStorage();
+}, [tasks]);
+  
+
+  const saveLocalStorage = () => {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    localStorage.setItem("deletTasks", JSON.stringify(deletTasks));
+  };
+
+
+ 
+
   //create new task
-  const createTask = (taskName, i) => {
+  const createTask = (taskName) => {
     if (taskName) {
       const newTask = {
         taskName: taskName,
@@ -131,15 +137,19 @@ export default function App(props) {
   };
   //editing tasks
   const onEditTask = (id) => {
-    const modifiedTasks = [...tasks].map((task) => {
-      if (task.id === id) {
-        task.taskName = editingText;
-      }
-      return task;
-    });
+    if(tasks.length !== 0){
+      const modifiedTasks = [...tasks].map((task) => {
+        if (task.id === id) {
+          task.taskName = editingText;
+        }
+        return task;
+      });
+      setTasks(modifiedTasks);
+      setEditingText("");
 
-    setTasks(modifiedTasks);
-    setEditingText("");
+    }
+   
+  
   };
   const getValueEdit = (ev) => {
     setEditingText(ev.target.value);
@@ -170,7 +180,9 @@ export default function App(props) {
                 onChange={getVelueSelect}
               />
               <div id="listConatiner">
-                {filterTasks.map((task, i) => (
+                {
+
+                  filterTasks ? (  filterTasks.map((task, i) => (
                   <Task
                     isComplete={task.complete}
                     key={i}
@@ -188,7 +200,9 @@ export default function App(props) {
                     valueEdit={editingText}
                     onInputEdit={getValueEdit}
                   />
-                ))}
+                ))):("")
+                }
+                
               </div>
               <div id="trash">
                 <ButtonColor
@@ -216,29 +230,34 @@ export default function App(props) {
                     style={{
                       display: "flex",
                       flexDirection: "row",
-                      marginLeft: "50px",
+                      margin: "0px 0px 10px 80px",
+                      gap:"20px",
                     }}
                   >
-                    <div style={{ margin: "20px 20px" }}>
+                    <div >
                       <ButtonColor
                         text="Delete all"
-                        width="200px"
                         onClick={() => {
                           deleteAll();
                           handleClose();
                         }}
                       ></ButtonColor>
                     </div>
-                    <div style={{ margin: "20px 100px" }}>
+                    <div >
                       <ButtonColor
                         text="Restore all"
-                        width="200px"
                         onClick={() => {
                           restoreAll();
                           handleClose();
                         }}
                       ></ButtonColor>
                     </div>
+                      <ButtonColor
+                        text="Back"
+                        onClick={() => {
+                          handleClose();
+                        }}
+                      ></ButtonColor>
                   </div>
                 </Dialog>
               </div>
