@@ -1,59 +1,157 @@
 import { useEffect, useState } from "react";
 import "./App.css";
+import ButtonColor from "./component/Button";
 import CreateTask from "./component/CreatedTask";
 import Task from "./component/Task";
-import Uuid from "./Uuid";
+import { Uuid } from "./Uuid";
+import DeleteIcon from "@mui/icons-material/Delete";
+import {  Dialog } from "@mui/material";
+import DeleteTask from "./component/DeleteTask";
 
 export default function App(props) {
   const [tasks, setTasks] = useState([]);
   const [editingText, setEditingText] = useState("");
+  const [select, setSelect] = useState("all");
+  const [filterTasks, setFilterTasks] = useState([]);
+  const [deletTasks, setDeleteTasks] = useState([]);
 
+  //filter tasks
+
+  const getVelueSelect = (ev) => {
+    setSelect(ev.target.value);
+    console.log(ev.target.value);
+  };
 
   useEffect(() => {
-    const allTasks = localStorage.getItem("tasks");
-    const loadedTodos = JSON.parse(allTasks);
-    if (loadedTodos) {
-      setTasks(loadedTodos);
+    filterTask();
+  }, [tasks, select]);
+
+  const filterTask = () => {
+    switch (select) {
+      case "complete":
+        setFilterTasks(tasks.filter((task) => task.complete === true));
+        break;
+      case "uncomplete":
+        setFilterTasks(tasks.filter((task) => task.complete === false));
+        break;
+      default:
+        setFilterTasks(tasks);
+        break;
     }
+  };
+
+  // get saved tasks from Local Storage
+  useEffect(() => {
+    getLocalStorage();
   }, []);
 
+  const saveLocalStorage = () => {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    localStorage.setItem("deletTasks", JSON.stringify(deletTasks));
+  };
+
+  //save tasks in LocalStorage
   useEffect(() => {
-    const allTasks = JSON.stringify(tasks);
-    localStorage.setItem("todos", allTasks);
+    saveLocalStorage();
   }, [tasks]);
 
+  const getLocalStorage = () => {
+    if (
+      localStorage.getItem("tasks") &&
+      localStorage.getItem("deletTasks") === null
+    ) {
+      localStorage.setItem("tasks", JSON.stringify([]));
+      localStorage.setItem("deletTasks", JSON.stringify([]));
+    } else {
+      const tasksLocal = localStorage.getItem("tasks", JSON.stringify(tasks));
+      setTasks(JSON.parse(tasksLocal));
+      const tasksLocalDel = localStorage.getItem(
+        "deletTasks",
+        JSON.stringify(deletTasks)
+      );
+      setDeleteTasks(JSON.parse(tasksLocalDel));
+    }
+  };
 
+  //create new task
   const createTask = (taskName, i) => {
     if (taskName) {
       const newTask = {
         taskName: taskName,
         id: Uuid(),
         complete: false,
+        isDelete: false,
       };
       setTasks([...tasks, newTask]);
     }
   };
+
+  // restore task
+
+  useEffect(() => {
+    restoreTask(tasks.id);
+  }, []);
+
+  const restoreTask = (id) => {
+    deletTasks.forEach((task) => {
+      if (task.id === id) {
+        task.isDelete = !task.isDelete;
+        tasks.push(task);
+      }
+    });
+
+    let modified = deletTasks.filter((task) => task.id !== id);
+    setDeleteTasks(modified);
+  };
+
+  //delete tasks
   const deleteTask = (id) => {
+    tasks.forEach((task) => {
+      if (task.id === id) {
+        task.isDelete = !task.isDelete;
+        deletTasks.push(task);
+      }
+    });
     const updateTask = tasks.filter((task) => task.id !== id);
     setTasks(updateTask);
   };
+  const deleteAll = () => {
+    setDeleteTasks([]);
+  };
+  const restoreAll = () => {
+    deletTasks.forEach((task) => tasks.push(task));
+    setDeleteTasks([]);
+  };
+
+  // completely taska
   const completeTodo = (index) => {
     const allTodo = [...tasks];
-    allTodo[index].complete = true;
+    allTodo[index].complete = !allTodo[index].complete;
     setTasks(allTodo);
   };
+  //editing tasks
   const onEditTask = (id) => {
-    const modifyTasks = [...tasks].map((task) => {
+    const modifiedTasks = [...tasks].map((task) => {
       if (task.id === id) {
         task.taskName = editingText;
       }
       return task;
     });
-    setTasks(modifyTasks);
+
+    setTasks(modifiedTasks);
     setEditingText("");
   };
   const getValueEdit = (ev) => {
     setEditingText(ev.target.value);
+  };
+
+  const [open, setOpen] = useState(false);
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
   };
 
   return (
@@ -62,16 +160,17 @@ export default function App(props) {
         <div id="triangle">
           <div id="cotainer">
             <div className="name">
-              <h2>TODO APP</h2>
+              <h2 className="h2">TODO APP</h2>
             </div>
             <div id="todo">
               <CreateTask
                 onCreateTask={(taskName) => {
                   createTask(taskName);
                 }}
+                onChange={getVelueSelect}
               />
               <div id="listConatiner">
-                {tasks.map((task, i) => (
+                {filterTasks.map((task, i) => (
                   <Task
                     isComplete={task.complete}
                     key={i}
@@ -90,6 +189,58 @@ export default function App(props) {
                     onInputEdit={getValueEdit}
                   />
                 ))}
+              </div>
+              <div id="trash">
+                <ButtonColor
+                  icon={<DeleteIcon />}
+                  onClick={() => handleClickOpen()}
+                ></ButtonColor>
+                <Dialog open={open} onClose={handleClose}>
+                  <div id="deleteTask">
+                    <h2 style={{ margin: "20px 140px" }}>
+                      These are deleted tasks
+                    </h2>
+                    {deletTasks.map((task, i) => (
+                      <DeleteTask
+                        key={i}
+                        taskName={task.taskName}
+                        id={task.id}
+                        number={i + 1}
+                        index={i}
+                        onRestoreTasks={restoreTask}
+                        onClose={handleClose}
+                      />
+                    ))}
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      marginLeft: "50px",
+                    }}
+                  >
+                    <div style={{ margin: "20px 20px" }}>
+                      <ButtonColor
+                        text="Delete all"
+                        width="200px"
+                        onClick={() => {
+                          deleteAll();
+                          handleClose();
+                        }}
+                      ></ButtonColor>
+                    </div>
+                    <div style={{ margin: "20px 100px" }}>
+                      <ButtonColor
+                        text="Restore all"
+                        width="200px"
+                        onClick={() => {
+                          restoreAll();
+                          handleClose();
+                        }}
+                      ></ButtonColor>
+                    </div>
+                  </div>
+                </Dialog>
               </div>
             </div>
           </div>

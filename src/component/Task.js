@@ -2,7 +2,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import { useState } from "react";
-import { Dialog} from "@mui/material";
+import { Dialog } from "@mui/material";
 import InputTask from "./Input";
 
 export default function Task(props) {
@@ -17,6 +17,9 @@ export default function Task(props) {
   };
   const handleOnEditTask = () => {
     props.onEditTask(props.id);
+  };
+  const handleDeleteTask = (id) => {
+    props.onDeleteTask(props.id);
   };
 
   return (
@@ -34,7 +37,7 @@ export default function Task(props) {
 
       <div className="task">
         <div className="button">
-          <DeleteIcon onClick={() => props.onDeleteTask(props.id)} />
+          <DeleteIcon onClick={handleDeleteTask} />
         </div>
         <div className="button">
           <EditIcon
@@ -49,9 +52,9 @@ export default function Task(props) {
               onClickBack={() => handleClose()}
               value={props.valueEdit}
               onInput={props.onInputEdit}
-              placeholder = "Write edit task"
-              buttonText = "Save edit"
-
+              placeholder="Write edit task"
+              buttonText="Save edit"
+             
             />
           </Dialog>
         </div>

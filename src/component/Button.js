@@ -13,15 +13,13 @@ const theme = createTheme({
 
 export default function ButtonColor(props) {
   return (
-    <ThemeProvider theme={theme}>
-      <Button 
-        color="neutral"
-        variant="contained" 
-        size={props.size}
-        onClick = {props.onClick}>
-        {props.icon}
-        {props.text}
-      </Button>
-    </ThemeProvider>
+    <div style={{ width: `${props.width}` }}>
+      <ThemeProvider theme={theme}>
+        <Button color="neutral" variant="contained" onClick={props.onClick}>
+          {props.icon}
+          {props.text}
+        </Button>
+      </ThemeProvider>
+    </div>
   );
 }
